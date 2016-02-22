@@ -102,7 +102,7 @@ Square *Board::getSquareAt(int x, int y)
 void Board::move(Player *p, int x, int y)
 {
     if (x%2==0 && y%2==0){
-        PlayableSquare* square = (PlayableSquare*)board_[x][y];
+        PlayableSquare* square = (PlayableSquare*)board_[p->getPos()->getX()][p->getPos()->getY()];
         square -> setPlayer(nullptr);
         setPlayerAt(p,x,y);
     }else{

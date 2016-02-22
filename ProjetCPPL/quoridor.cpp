@@ -32,6 +32,8 @@ Quoridor::Quoridor(int size, int numberOfPlayers) : board_{Board(size)}
 
 void Quoridor::move(Player p, Square *square)
 {
+    Player *player = &p;
+    board_.move(player,square->getX(),square->getY());
     p.move(square);
 }
 
