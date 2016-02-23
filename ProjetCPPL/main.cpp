@@ -3,12 +3,21 @@
 using namespace std;
 #include "board.h"
 #include "quoridor.h"
+
 int main()
 {
-    //Board test = Board(10);
-    //test.print();
-    Quoridor o = Quoridor(9);
-    o.test();
+    int size = 9;
+    Board test = Board(size);
+    test.print();
+    test.placeWall();
+    test.print();
+    test.placeWall();
+    test.print();
+    int y;
+    cout<<"Entier : ";
+    cin>>y;
+    cout<<y<<endl;
+
+    Quoridor o = Quoridor(size);
     return 0;
 }
-

@@ -14,7 +14,7 @@ CC            = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefau
 CXX           = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++
 DEFINES       = 
 CFLAGS        = -pipe -g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk -mmacosx-version-min=10.9 -Wall -W -fPIC $(DEFINES)
-CXXFLAGS      = -pipe -std=c++14 -stdlib=libc++ -mmacosx-version-min=10.7 -pedantic-errors -g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk -mmacosx-version-min=10.9 -std=c++1y -Wall -W -fPIC $(DEFINES)
+CXXFLAGS      = -pipe -std=c++14 -g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk -mmacosx-version-min=10.9 -std=c++1y -Wall -W -fPIC $(DEFINES)
 INCPATH       = -I../ProjetCPPL -I. -I/Users/Quent1/Qt/5.5/clang_64/mkspecs/macx-clang
 QMAKE         = /Users/Quent1/Qt/5.5/clang_64/bin/qmake
 DEL_FILE      = rm -f
@@ -55,8 +55,7 @@ SOURCES       = ../ProjetCPPL/main.cpp \
 		../ProjetCPPL/consolequoridor.cpp \
 		../ProjetCPPL/quoridor.cpp \
 		../ProjetCPPL/wall.cpp \
-		../ProjetCPPL/playablesquare.cpp \
-		../ProjetCPPL/pawn.cpp 
+		../ProjetCPPL/playablesquare.cpp 
 OBJECTS       = main.o \
 		player.o \
 		board.o \
@@ -64,8 +63,7 @@ OBJECTS       = main.o \
 		consolequoridor.o \
 		quoridor.o \
 		wall.o \
-		playablesquare.o \
-		pawn.o
+		playablesquare.o
 DIST          = /Users/Quent1/Qt/5.5/clang_64/mkspecs/features/spec_pre.prf \
 		/Users/Quent1/Qt/5.5/clang_64/mkspecs/qdevice.pri \
 		/Users/Quent1/Qt/5.5/clang_64/mkspecs/features/device_config.prf \
@@ -206,16 +204,14 @@ DIST          = /Users/Quent1/Qt/5.5/clang_64/mkspecs/features/spec_pre.prf \
 		consolequoridor.h \
 		quoridor.h \
 		wall.h \
-		playablesquare.h \
-		pawn.h ../ProjetCPPL/main.cpp \
+		playablesquare.h ../ProjetCPPL/main.cpp \
 		../ProjetCPPL/player.cpp \
 		../ProjetCPPL/board.cpp \
 		../ProjetCPPL/square.cpp \
 		../ProjetCPPL/consolequoridor.cpp \
 		../ProjetCPPL/quoridor.cpp \
 		../ProjetCPPL/wall.cpp \
-		../ProjetCPPL/playablesquare.cpp \
-		../ProjetCPPL/pawn.cpp
+		../ProjetCPPL/playablesquare.cpp
 QMAKE_TARGET  = ProjetCPPL
 DESTDIR       = #avoid trailing-slash linebreak
 TARGET        = ProjetCPPL
@@ -575,19 +571,19 @@ compiler_clean:
 
 main.o: ../ProjetCPPL/main.cpp ../ProjetCPPL/board.h \
 		../ProjetCPPL/playablesquare.h \
-		../ProjetCPPL/pawn.h \
+		../ProjetCPPL/player.h \
 		../ProjetCPPL/square.h \
-		../ProjetCPPL/wall.h
+		../ProjetCPPL/wall.h \
+		../ProjetCPPL/quoridor.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../ProjetCPPL/main.cpp
 
 player.o: ../ProjetCPPL/player.cpp ../ProjetCPPL/player.h \
-		../ProjetCPPL/pawn.h \
 		../ProjetCPPL/square.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o player.o ../ProjetCPPL/player.cpp
 
 board.o: ../ProjetCPPL/board.cpp ../ProjetCPPL/board.h \
 		../ProjetCPPL/playablesquare.h \
-		../ProjetCPPL/pawn.h \
+		../ProjetCPPL/player.h \
 		../ProjetCPPL/square.h \
 		../ProjetCPPL/wall.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o board.o ../ProjetCPPL/board.cpp
@@ -599,19 +595,17 @@ consolequoridor.o: ../ProjetCPPL/consolequoridor.cpp ../ProjetCPPL/consolequorid
 		../ProjetCPPL/quoridor.h \
 		../ProjetCPPL/board.h \
 		../ProjetCPPL/playablesquare.h \
-		../ProjetCPPL/pawn.h \
+		../ProjetCPPL/player.h \
 		../ProjetCPPL/square.h \
-		../ProjetCPPL/wall.h \
-		../ProjetCPPL/player.h
+		../ProjetCPPL/wall.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o consolequoridor.o ../ProjetCPPL/consolequoridor.cpp
 
 quoridor.o: ../ProjetCPPL/quoridor.cpp ../ProjetCPPL/quoridor.h \
 		../ProjetCPPL/board.h \
 		../ProjetCPPL/playablesquare.h \
-		../ProjetCPPL/pawn.h \
+		../ProjetCPPL/player.h \
 		../ProjetCPPL/square.h \
-		../ProjetCPPL/wall.h \
-		../ProjetCPPL/player.h
+		../ProjetCPPL/wall.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o quoridor.o ../ProjetCPPL/quoridor.cpp
 
 wall.o: ../ProjetCPPL/wall.cpp ../ProjetCPPL/wall.h \
@@ -619,13 +613,9 @@ wall.o: ../ProjetCPPL/wall.cpp ../ProjetCPPL/wall.h \
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o wall.o ../ProjetCPPL/wall.cpp
 
 playablesquare.o: ../ProjetCPPL/playablesquare.cpp ../ProjetCPPL/playablesquare.h \
-		../ProjetCPPL/pawn.h \
+		../ProjetCPPL/player.h \
 		../ProjetCPPL/square.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o playablesquare.o ../ProjetCPPL/playablesquare.cpp
-
-pawn.o: ../ProjetCPPL/pawn.cpp ../ProjetCPPL/pawn.h \
-		../ProjetCPPL/square.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o pawn.o ../ProjetCPPL/pawn.cpp
 
 ####### Install
 

@@ -6,7 +6,6 @@
 class Player {
 public:
     Player(int numberOfWalls, Square* start, std::string nb);
-    //inline Pawn getPawn() const{return pawn_;}
     inline Square* getStart() const{return start_;}
     inline Square* getPos() const{return pos_;}
     inline std::string getPlayerNb() const{return playerNb_;}

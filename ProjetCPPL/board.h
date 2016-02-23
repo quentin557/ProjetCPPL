@@ -15,6 +15,9 @@ public:
     void setPlayerAt(Player* player, int x, int y);
     Square* getSquareAt(int x, int y);
     void move(Player* p, int x, int y);
+    void placeWall();
+    int getInt();
+
 
 protected:
     std::vector<std::vector<Square*>> board_;
