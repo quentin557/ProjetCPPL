@@ -12,7 +12,7 @@ public:
     ConsoleQuoridor(int size, int numberOfPlayers = 2);
 
 protected:
-    //Quoridor game_;
+    Quoridor game_;
 };
 
 #endif // CONSOLEQUORIDOR_H

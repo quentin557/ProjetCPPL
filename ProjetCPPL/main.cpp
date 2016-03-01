@@ -6,18 +6,16 @@ using namespace std;
 
 int main()
 {
-    int size = 9;
-    Board test = Board(size);
-    test.print();
-    test.placeWall();
-    test.print();
-    test.placeWall();
-    test.print();
-    int y;
-    cout<<"Entier : ";
-    cin>>y;
-    cout<<y<<endl;
+    int size = 5;
+    Quoridor o = Quoridor(size,4);
+    o.move(0,2,0);
+    std::cout<<o.to_string()<<std::endl;
+    o.test(0,0);
+    std::cout<<o.to_string()<<std::endl;
+    std::vector<std::tuple<int,int>> moves = o.checkMoves(0);
+    for(auto m : moves){
+        std::cout<<"possible move at "<<std::get<0>(m)<<" , "<<std::get<1>(m)<<std::endl;
+    }
 
-    Quoridor o = Quoridor(size);
     return 0;
 }

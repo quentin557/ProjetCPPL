@@ -17,15 +17,13 @@ Board::Board(int size) {
     }
 }
 
-void Board::print() {
+std::string Board::to_string() {
     std::string value = "   ";
-
     Wall * temp;
     bool wallH = false;
     bool wallV = false;
     int cptH = 1;
     int cptV = 1;
-
     for (size_t i = 0; i < board_.size(); i++) {
         if (wallV) {
             value += "_ ";
@@ -37,10 +35,8 @@ void Board::print() {
             value += "_____";
             wallV = !wallV;
         }
-
     }
     value += "\n  |";
-    std::cout << board_.size() << std::endl;
     for (size_t i = 0; i < board_.size(); i++) {
         for (size_t j = 0; j < board_.size(); j++) {
             if (i % 2 == 0 && j % 2 == 0) {
@@ -70,7 +66,15 @@ void Board::print() {
         }
         for (size_t j = 0; j < board_.size(); j++) {
             if (i % 2 == 0 && j % 2 == 0) {
-                value += "  S  "; //square
+                PlayableSquare * play = dynamic_cast<PlayableSquare *>(getSquareAt(i,j));
+                if (play->getPlayer()) {
+                    value+="  ";
+                    value+=play->getPlayer()->getPlayerNb();
+                    value+="  ";
+                }
+                else {
+                    value += "  .  "; //square
+                }
             }
             else {
                 temp = (Wall *)getSquareAt(i, j);
@@ -106,13 +110,12 @@ void Board::print() {
         value += "-----";
     }
     value += "|\n";
-    std::cout << value;
-
+    return value;
 }
 
-void Board::setPlayerAt(Player * player, int x, int y) {
+void Board::setPlayerAt(Player  *player, int x, int y) {
     if (x % 2 == 0 && y % 2 == 0) {
-        PlayableSquare * square = (PlayableSquare *)board_[x][y];
+        PlayableSquare * square = dynamic_cast<PlayableSquare *> (board_[x][y]);
         square->setPlayer(player);
     }
     else {
@@ -126,9 +129,9 @@ Square * Board::getSquareAt(int x, int y) {
 
 void Board::move(Player * p, int x, int y) {
     if (x % 2 == 0 && y % 2 == 0) {
-        PlayableSquare * square = (PlayableSquare *)
-                                  board_[p->getPos()->getX()][p->getPos()->getY()];
-        square -> setPlayer(nullptr);
+        PlayableSquare * square = dynamic_cast<PlayableSquare *>
+                                  (board_[p->getPos()->getX()][p->getPos()->getY()]);
+        square -> setFree();
         setPlayerAt(p, x, y);
     }
     else {
@@ -179,6 +182,7 @@ void Board::placeWall() {
         }
     }
 }
+
 int Board::getInt() {
     int x;
     while (true) {
@@ -190,4 +194,8 @@ int Board::getInt() {
             return x;
         }
     }
+}
+
+bool Board::isInside(size_t x, size_t y) {
+    return (x >= 0 && x < board_.size() && y >= 0 && y < board_.size());
 }

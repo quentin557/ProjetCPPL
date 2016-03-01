@@ -11,12 +11,13 @@ class Board
 public:
     Board(int size);
     ~Board();
-    void print();
-    void setPlayerAt(Player* player, int x, int y);
+    std::string to_string();
+    void setPlayerAt(Player *player, int x, int y);
     Square* getSquareAt(int x, int y);
     void move(Player* p, int x, int y);
     void placeWall();
     int getInt();
+    bool isInside(size_t x, size_t y);
 
 
 protected:

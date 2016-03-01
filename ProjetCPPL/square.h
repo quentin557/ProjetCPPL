@@ -10,14 +10,6 @@ public:
     virtual ~Square(){}
     inline int getX(){return posX_;}
     inline int getY(){return posY_;}
-    virtual std::string getString(){
-        std::string area;
-
-        area ="   \n S \n  ";
-
-        return area;
-
-    }
 
 protected:
     int posX_;

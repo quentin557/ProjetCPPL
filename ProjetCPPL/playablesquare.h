@@ -3,13 +3,15 @@
 
 #include "player.h"
 #include "square.h"
+#include <iostream>
 
 class PlayableSquare : public Square
 {
 public:
     PlayableSquare(int posX, int posY);
-    char getChar(){return 'p';}
+    Player* getPlayer() const{return hasPlayer_;}
     void setPlayer(Player* player);
+    void setFree();
 
 protected:
     Player * hasPlayer_;

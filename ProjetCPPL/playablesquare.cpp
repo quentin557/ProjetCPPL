@@ -10,3 +10,8 @@ void PlayableSquare::setPlayer(Player *player)
     hasPlayer_ = player;
 }
 
+void PlayableSquare::setFree()
+{
+    hasPlayer_ = nullptr;
+}
+
