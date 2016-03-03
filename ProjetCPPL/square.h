@@ -8,12 +8,15 @@ class Square
 public:
     Square(int posX, int posY);
     virtual ~Square(){}
-    inline int getX(){return posX_;}
-    inline int getY(){return posY_;}
+    inline int getX() const{return posX_;}
+    inline int getY() const{return posY_;}
+    inline bool getVisited() const{return visited_;}
+    inline void setVisited(bool newVisit){visited_=newVisit;}
 
 protected:
-    int posX_;
-    int posY_;
+    const int posX_;
+    const int posY_;
+    bool visited_;
 };
 
 #endif // SQUARE_H

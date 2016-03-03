@@ -55,7 +55,8 @@ SOURCES       = ../ProjetCPPL/main.cpp \
 		../ProjetCPPL/consolequoridor.cpp \
 		../ProjetCPPL/quoridor.cpp \
 		../ProjetCPPL/wall.cpp \
-		../ProjetCPPL/playablesquare.cpp 
+		../ProjetCPPL/playablesquare.cpp \
+		../ProjetCPPL/obersverpattern.cpp 
 OBJECTS       = main.o \
 		player.o \
 		board.o \
@@ -63,7 +64,8 @@ OBJECTS       = main.o \
 		consolequoridor.o \
 		quoridor.o \
 		wall.o \
-		playablesquare.o
+		playablesquare.o \
+		obersverpattern.o
 DIST          = /Users/Quent1/Qt/5.5/clang_64/mkspecs/features/spec_pre.prf \
 		/Users/Quent1/Qt/5.5/clang_64/mkspecs/qdevice.pri \
 		/Users/Quent1/Qt/5.5/clang_64/mkspecs/features/device_config.prf \
@@ -204,14 +206,16 @@ DIST          = /Users/Quent1/Qt/5.5/clang_64/mkspecs/features/spec_pre.prf \
 		consolequoridor.h \
 		quoridor.h \
 		wall.h \
-		playablesquare.h ../ProjetCPPL/main.cpp \
+		playablesquare.h \
+		obersverpattern.h ../ProjetCPPL/main.cpp \
 		../ProjetCPPL/player.cpp \
 		../ProjetCPPL/board.cpp \
 		../ProjetCPPL/square.cpp \
 		../ProjetCPPL/consolequoridor.cpp \
 		../ProjetCPPL/quoridor.cpp \
 		../ProjetCPPL/wall.cpp \
-		../ProjetCPPL/playablesquare.cpp
+		../ProjetCPPL/playablesquare.cpp \
+		../ProjetCPPL/obersverpattern.cpp
 QMAKE_TARGET  = ProjetCPPL
 DESTDIR       = #avoid trailing-slash linebreak
 TARGET        = ProjetCPPL
@@ -574,6 +578,7 @@ main.o: ../ProjetCPPL/main.cpp ../ProjetCPPL/board.h \
 		../ProjetCPPL/player.h \
 		../ProjetCPPL/square.h \
 		../ProjetCPPL/wall.h \
+		../ProjetCPPL/consolequoridor.h \
 		../ProjetCPPL/quoridor.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../ProjetCPPL/main.cpp
 
@@ -616,6 +621,9 @@ playablesquare.o: ../ProjetCPPL/playablesquare.cpp ../ProjetCPPL/playablesquare.
 		../ProjetCPPL/player.h \
 		../ProjetCPPL/square.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o playablesquare.o ../ProjetCPPL/playablesquare.cpp
+
+obersverpattern.o: ../ProjetCPPL/obersverpattern.cpp ../ProjetCPPL/obersverpattern.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o obersverpattern.o ../ProjetCPPL/obersverpattern.cpp
 
 ####### Install
 

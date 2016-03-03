@@ -1,5 +1,6 @@
 #include "quoridor.h"
 #include <iostream>
+#include <algorithm>
 
 Quoridor::Quoridor(int size, int numberOfPlayers) : board_{Board(size)}
 {
@@ -53,12 +54,47 @@ void Quoridor::move(int playerNb, int x, int y)
 {
     board_.move(players.at(playerNb),x,y);
     players.at(playerNb)->move(board_.getSquareAt(x,y));
+    notify();
 }
 
-std::vector<std::tuple<int,int>> Quoridor::checkMoves(int playerNb, bool backtrack)
+void Quoridor::placeWall(bool hORv, int y, int x)
 {
-    Player* p = players.at(playerNb);
+    board_.placeWall(hORv,y,x);
+    notify();
+}
+
+std::vector<std::tuple<int,int>> Quoridor::checkMoves(int playerNb){
+    Player *p = players.at(playerNb);
     Square* pos = p->getPos();
+    return checkMoves(pos->getX(),pos->getY());
+}
+
+void Quoridor::initBacktrack()
+{
+    for(int i = 0; i<board_.getSize();i++){
+        for (int j =0; j<board_.getSize();j++){
+            board_.getSquareAt(i,j)->setVisited(false);
+        }
+    }
+}
+
+bool Quoridor::canStillWin(int playerNb)
+{
+    bool res = false;
+    Player *p = players.at(playerNb);
+    initBacktrack();
+    backtrack(p->getPos()->getX(),p->getPos()->getY(),getDestinations(playerNb));
+    for(auto m : getDestinations(playerNb)){
+        if(board_.getSquareAt(std::get<0>(m),std::get<1>(m))->getVisited()==true){
+            res = true;
+        }
+    }
+    return res;
+}
+
+std::vector<std::tuple<int,int>> Quoridor::checkMoves(int x, int y, bool backtrack)
+{
+    Square* pos = board_.getSquareAt(x,y);
     std::vector<std::tuple<int,int>> directions = {{0,1},{1,0},{0,-1},{-1,0}};
     std::vector<std::tuple<int,int>> moves;
     for(std::tuple<int,int> dir : directions){
@@ -70,7 +106,7 @@ std::vector<std::tuple<int,int>> Quoridor::checkMoves(int playerNb, bool backtra
                 newX+=std::get<0>(dir);
                 newY+=std::get<1>(dir);
                 PlayableSquare* destination = dynamic_cast<PlayableSquare*>(board_.getSquareAt(newX,newY));
-                if(destination->getPlayer()==nullptr){
+                if(destination->getPlayer()==nullptr || backtrack == true){
                     std::tuple<int,int> possibleMove= {newX,newY};
                     moves.push_back(possibleMove);
                 }else if(not backtrack){ //only if checking player move, not while backtracking
@@ -112,14 +148,48 @@ std::vector<std::tuple<int,int>> Quoridor::checkMoves(int playerNb, bool backtra
     return moves;
 }
 
+void Quoridor::backtrack(int x, int y, std::vector<std::tuple<int, int> > destinations)
+{
+    board_.getSquareAt(x,y)->setVisited(true);
+    std::vector<std::tuple<int, int>> moves = checkMoves(x,y,true);
+    for (auto move : moves){
+        if(board_.getSquareAt(std::get<0>(move),std::get<1>(move))->getVisited()==false){
+            backtrack(std::get<0>(move),std::get<1>(move),destinations);
+        }
+    }
+}
+
+
 std::string Quoridor::to_string()
 {
     return board_.to_string();
 }
 
+std::vector<std::tuple<int, int> > Quoridor::getDestinations(int playerNb)
+{
+    Player *p = players.at(playerNb);
+    const Square* pos = p->getStart();
+    std::vector<std::tuple<int, int> > dest;
+    int size = board_.getSize();
+    if(pos->getX()==0){ //Player North
+        for(int i = 0; i<size;i++)
+            if(i%2==0) dest.push_back({size-1,i});
+    }else if(pos->getY()==0){ //Player West
+        for(int i = 0; i<size;i++)
+            if(i%2==0) dest.push_back({i,size-1});
+    }else if(pos->getX()==size-1){ //Player South
+        for(int i = 0; i<size;i++)
+            if(i%2==0) dest.push_back({0,i});
+    }else if(pos->getY()==size-1){ //Player East
+        for(int i = 0; i<size;i++)
+            if(i%2==0) dest.push_back({i,0});
+    }
+    return dest;
+}
+
 void Quoridor::test(int x, int y)
 {
-    board_.placeWall();
+    //board_.placeWall();
 //    move(0,x,y);
 //    for (auto p : players){
 //        std::cout<<p.getNumberOfWalls()<<std::endl;

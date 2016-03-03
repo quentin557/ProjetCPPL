@@ -3,16 +3,19 @@
 
 #include "quoridor.h"
 #include <stdexcept>
+#include "obersverpattern.h"
 
 
-
-class ConsoleQuoridor
+class ConsoleQuoridor : public Observer
 {
 public:
     ConsoleQuoridor(int size, int numberOfPlayers = 2);
-
-protected:
-    Quoridor game_;
+    virtual void update();
+    void placeWall();
+    int getInt(int size);
+    bool pivot();
+    void test();
+    Quoridor* getGame(){return (Quoridor*)model;}
 };
 
 #endif // CONSOLEQUORIDOR_H

@@ -148,50 +148,45 @@ Board::~Board() {
     }
 }
 
-void Board::placeWall() {
+void Board::placeWall(bool hORv, int y, int x) {
 
     Wall * temp;
-    int x, y;
-    char piv;
-
-    std::cout << "Indiquez l'horizontale :";
-    y = getInt();
-    std::cout << std::endl;
-    std::cout << "Indiquez la verticale :";
-    x = getInt();
-    std::cout << std::endl;
-    std::cout << "Horizontale ou Verticale?";
-    std::cin >> piv;
-    std::cout << std::endl;
 
     x = (x * 2) - 1;
     y = (y * 2) - 1;
 
-    if (piv == 'V' || piv == 'v') {
+    //Check before place
+    if (hORv) {
+        for (int i = -1; i < 2; i++) {
+            temp = (Wall *) board_[x + i][y];
+            if (temp->getBuild()) {
+                throw std::invalid_argument("Mur déjà placé.");
+            }
+        }
+    }
+    else {
+        for (int i = -1; i < 2; i++) {
+            temp = (Wall *) board_[x][y + i];
+            if (temp->getBuild()) {
+                throw std::invalid_argument("Mur déjà placé.");
+            }
+        }
+    }
+
+    //Place
+    if (hORv) {
+
         for (int i = -1; i < 2; i++) {
             temp = (Wall *) board_[x + i][y];
             temp->build();
 
         }
     }
-    else if ((piv == 'H' || piv == 'h')) {
+    else {
         for (int i = -1; i < 2; i++) {
             temp = (Wall *) board_[x][y + i];
             temp->build();
 
-        }
-    }
-}
-
-int Board::getInt() {
-    int x;
-    while (true) {
-        std::cout << "Entrer un entier !" << std::endl;
-        std::cin.clear();
-        while (std::cin.get() != '\n');
-        std::cin >> x;
-        if (!std::cin.fail()) {
-            return x;
         }
     }
 }

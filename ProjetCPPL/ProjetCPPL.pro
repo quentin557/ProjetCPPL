@@ -13,7 +13,8 @@ SOURCES += main.cpp \
     consolequoridor.cpp \
     quoridor.cpp \
     wall.cpp \
-    playablesquare.cpp
+    playablesquare.cpp \
+    obersverpattern.cpp
 
 HEADERS += \
     player.h \
@@ -22,5 +23,6 @@ HEADERS += \
     consolequoridor.h \
     quoridor.h \
     wall.h \
-    playablesquare.h
+    playablesquare.h \
+    obersverpattern.h
 
