@@ -207,7 +207,9 @@ DIST          = /Users/Quent1/Qt/5.5/clang_64/mkspecs/features/spec_pre.prf \
 		quoridor.h \
 		wall.h \
 		playablesquare.h \
-		obersverpattern.h ../ProjetCPPL/main.cpp \
+		obersverpattern.h \
+		keyboard.hpp \
+		stringConvert.hpp ../ProjetCPPL/main.cpp \
 		../ProjetCPPL/player.cpp \
 		../ProjetCPPL/board.cpp \
 		../ProjetCPPL/square.cpp \
@@ -573,13 +575,16 @@ compiler_clean:
 
 ####### Compile
 
-main.o: ../ProjetCPPL/main.cpp ../ProjetCPPL/board.h \
+main.o: ../ProjetCPPL/main.cpp ../ProjetCPPL/keyboard.hpp \
+		../ProjetCPPL/stringConvert.hpp \
+		../ProjetCPPL/board.h \
 		../ProjetCPPL/playablesquare.h \
 		../ProjetCPPL/player.h \
 		../ProjetCPPL/square.h \
 		../ProjetCPPL/wall.h \
 		../ProjetCPPL/consolequoridor.h \
-		../ProjetCPPL/quoridor.h
+		../ProjetCPPL/quoridor.h \
+		../ProjetCPPL/obersverpattern.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../ProjetCPPL/main.cpp
 
 player.o: ../ProjetCPPL/player.cpp ../ProjetCPPL/player.h \
@@ -602,7 +607,8 @@ consolequoridor.o: ../ProjetCPPL/consolequoridor.cpp ../ProjetCPPL/consolequorid
 		../ProjetCPPL/playablesquare.h \
 		../ProjetCPPL/player.h \
 		../ProjetCPPL/square.h \
-		../ProjetCPPL/wall.h
+		../ProjetCPPL/wall.h \
+		../ProjetCPPL/obersverpattern.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o consolequoridor.o ../ProjetCPPL/consolequoridor.cpp
 
 quoridor.o: ../ProjetCPPL/quoridor.cpp ../ProjetCPPL/quoridor.h \
@@ -610,7 +616,8 @@ quoridor.o: ../ProjetCPPL/quoridor.cpp ../ProjetCPPL/quoridor.h \
 		../ProjetCPPL/playablesquare.h \
 		../ProjetCPPL/player.h \
 		../ProjetCPPL/square.h \
-		../ProjetCPPL/wall.h
+		../ProjetCPPL/wall.h \
+		../ProjetCPPL/obersverpattern.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o quoridor.o ../ProjetCPPL/quoridor.cpp
 
 wall.o: ../ProjetCPPL/wall.cpp ../ProjetCPPL/wall.h \

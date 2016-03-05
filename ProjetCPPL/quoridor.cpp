@@ -1,14 +1,12 @@
 #include "quoridor.h"
-#include <iostream>
-#include <algorithm>
 
 Quoridor::Quoridor(int size, int numberOfPlayers) : board_{Board(size)}
 {
     if(size>19 || size<5 || size%2==0){
-        throw std::invalid_argument("Quoridor::Quoridor : Invalid Size");
+        throw std::invalid_argument("Invalid Size");
     }
     if (numberOfPlayers !=2 && numberOfPlayers!=4){
-        throw std::invalid_argument("Quoridor::Quoridor : Invalid NumberOfPlayers");
+        throw std::invalid_argument("Invalid NumberOfPlayers");
     }
     int numberOfWalls = 0;
     if(numberOfPlayers==2){
@@ -52,15 +50,54 @@ Quoridor::~Quoridor()
 
 void Quoridor::move(int playerNb, int x, int y)
 {
-    board_.move(players.at(playerNb),x,y);
-    players.at(playerNb)->move(board_.getSquareAt(x,y));
+    if(x%2!=0 || y%2!=0)
+        throw std::invalid_argument("trying to move on non playable square");
+    PlayableSquare* pos = dynamic_cast<PlayableSquare*>(board_.getSquareAt(x,y));
+    if( pos->getPlayer()==nullptr){
+        board_.move(players.at(playerNb),x,y);
+        players.at(playerNb)->move(board_.getSquareAt(x,y));
+        notify();
+    }else{
+        throw std::invalid_argument("trying to move on another player");
+    }
+}
+
+void Quoridor::placeWall(bool hORv, int x, int y, int playerNb)
+{
+    Wall* temp;
+    x = (x * 2) - 1;
+    y = (y * 2) - 1;
+    //Check before place
+    if(players.at(playerNb)->getNumberOfWalls()==0){
+        throw std::invalid_argument("Player has placed all his walls");
+    }
+    for (int i = -1; i < 2; i++) {
+        if(hORv){
+            temp = dynamic_cast<Wall*>(board_.getSquareAt(x+i,y));
+            if (temp->getBuild()) {
+                throw std::invalid_argument("Wall already there");
+            }
+        }else{
+            temp = dynamic_cast<Wall*>(board_.getSquareAt(x,y+i));
+            if (temp->getBuild()) {
+                throw std::invalid_argument("Wall already there");
+            }
+        }
+    }
+    board_.placeWall(hORv,x,y);
+    for(size_t i = 0 ;i<players.size();i++){
+        if(!canStillWin(i)){
+            clearWall(hORv,x,y);
+            throw std::invalid_argument("Wall makes game unwinnable for a player");
+        }
+    }
+    players.at(playerNb)->hasPlacedWall();
     notify();
 }
 
-void Quoridor::placeWall(bool hORv, int y, int x)
+void Quoridor::clearWall(bool hORv, int x, int y)
 {
-    board_.placeWall(hORv,y,x);
-    notify();
+    board_.clearWall(hORv,x,y);
 }
 
 std::vector<std::tuple<int,int>> Quoridor::checkMoves(int playerNb){
@@ -88,6 +125,17 @@ bool Quoridor::canStillWin(int playerNb)
         if(board_.getSquareAt(std::get<0>(m),std::get<1>(m))->getVisited()==true){
             res = true;
         }
+    }
+    return res;
+}
+
+bool Quoridor::hasWon(int playerNb)
+{
+    bool res = false;
+    Square* pos = players.at(playerNb)->getPos();
+    for(auto m : getDestinations(playerNb)){
+        if(std::get<0>(m)==pos->getX() && std::get<1>(m)==pos->getY())
+            res = true;
     }
     return res;
 }
@@ -185,23 +233,4 @@ std::vector<std::tuple<int, int> > Quoridor::getDestinations(int playerNb)
             if(i%2==0) dest.push_back({i,0});
     }
     return dest;
-}
-
-void Quoridor::test(int x, int y)
-{
-    //board_.placeWall();
-//    move(0,x,y);
-//    for (auto p : players){
-//        std::cout<<p.getNumberOfWalls()<<std::endl;
-//    }
-//    PlayableSquare* test = (PlayableSquare*)board_.getSquareAt(x,y);
-//    if(test->getPlayer()==nullptr){
-//        std::cout<<"no player"<<std::endl;
-//    }else{
-//        std::cout<<"player found"<<std::endl;
-//    }
-//    std::vector<std::tuple<int,int>> moves = checkMoves(0);
-//    for(auto m : moves){
-//        std::cout<<"possible move at "<<std::get<0>(m)<<" , "<<std::get<1>(m)<<std::endl;
-//    }
 }

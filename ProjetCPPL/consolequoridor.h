@@ -9,12 +9,12 @@
 class ConsoleQuoridor : public Observer
 {
 public:
-    ConsoleQuoridor(int size, int numberOfPlayers = 2);
+    ConsoleQuoridor(Quoridor *game);
     virtual void update();
-    void placeWall();
-    int getInt(int size);
-    bool pivot();
-    void test();
+    void placeWall(int playerNb);
+    void move(int playerNb);
+    void play();
+    void choice(int playerNb);
     Quoridor* getGame(){return (Quoridor*)model;}
 };
 

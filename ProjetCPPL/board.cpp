@@ -148,45 +148,29 @@ Board::~Board() {
     }
 }
 
-void Board::placeWall(bool hORv, int y, int x) {
-
+void Board::placeWall(bool hORv, int x, int y) {
     Wall * temp;
-
-    x = (x * 2) - 1;
-    y = (y * 2) - 1;
-
-    //Check before place
-    if (hORv) {
-        for (int i = -1; i < 2; i++) {
-            temp = (Wall *) board_[x + i][y];
-            if (temp->getBuild()) {
-                throw std::invalid_argument("Mur déjà placé.");
-            }
-        }
-    }
-    else {
-        for (int i = -1; i < 2; i++) {
-            temp = (Wall *) board_[x][y + i];
-            if (temp->getBuild()) {
-                throw std::invalid_argument("Mur déjà placé.");
-            }
-        }
-    }
-
-    //Place
-    if (hORv) {
-
-        for (int i = -1; i < 2; i++) {
-            temp = (Wall *) board_[x + i][y];
+    for (int i = -1; i < 2; i++) {
+        if (hORv) {
+            temp = dynamic_cast<Wall*>(board_[x + i][y]);
             temp->build();
-
+        }else{
+            temp = dynamic_cast<Wall*>(board_[x][y + i]);
+            temp->build();
         }
     }
-    else {
-        for (int i = -1; i < 2; i++) {
-            temp = (Wall *) board_[x][y + i];
-            temp->build();
+}
 
+void Board::clearWall(bool hORv, int x, int y)
+{
+    Wall * temp;
+    for (int i = -1; i < 2; i++) {
+        if (hORv) {
+            temp = dynamic_cast<Wall*>(board_[x + i][y]);
+            temp->demolish();
+        }else{
+            temp = dynamic_cast<Wall*>(board_[x][y + i]);
+            temp->demolish();
         }
     }
 }

@@ -9,3 +9,8 @@ void Player::move(Square * square)
     pos_ = square;
 }
 
+void Player::hasPlacedWall()
+{
+    numberOfWalls_-=1;
+}
+

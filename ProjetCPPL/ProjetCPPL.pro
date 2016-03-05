@@ -24,5 +24,7 @@ HEADERS += \
     quoridor.h \
     wall.h \
     playablesquare.h \
-    obersverpattern.h
+    obersverpattern.h \
+    keyboard.hpp \
+    stringConvert.hpp
 

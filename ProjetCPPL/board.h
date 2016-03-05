@@ -17,7 +17,8 @@ public:
     void move(Player* p, int x, int y);
     int getInt();
     bool isInside(size_t x, size_t y);
-    void placeWall(bool hORv, int y,int x);
+    void placeWall(bool hORv, int x, int y);
+    void clearWall(bool hORv, int x, int y);
     inline int getSize(){return board_.size();}
 
 

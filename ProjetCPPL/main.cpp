@@ -1,29 +1,53 @@
 #include <iostream>
+#include <string>
+#include "keyboard.hpp"
 
 using namespace std;
 #include "board.h"
 #include "consolequoridor.h"
 
+void makeQuoridor(){
+    int size, Nb {-1};
+    try{
+        cout<<"----- Quoridor -----"<<endl;
+        cout<<"Choose size : ";
+        size = nvs::lineFromKbd<int>();
+        cout<<"Choose Number Of Players (2 or 4) : ";
+        Nb = nvs::lineFromKbd<int>();
+        Quoridor* game = new Quoridor(size,Nb);
+        ConsoleQuoridor view = ConsoleQuoridor(game);
+        view.play();
+        delete game;
+    }catch(std::invalid_argument e){
+        cout<<e.what()<<endl;
+    }catch( exception & e){
+        cout<<"Not a Number"<<endl;
+    }
+}
+
+void menu(){
+    bool exit = false;
+    std::string in;
+    while(!exit){
+        cout<<"----- Menu -----"<<endl;
+        cout<<"1. Play Game"<<endl;
+        cout<<"2. Exit"<<endl;
+        cout<<"----------------"<<endl;
+        cout<<"-> ";
+        cin>>in;
+        cout<<endl;
+        if(in=="1"){
+            cin.clear();
+            cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            makeQuoridor();
+        }else if(in=="2"){
+            exit = true;
+        }
+    }
+}
+
 int main()
 {
-//    int size = 5;
-//    Quoridor o = Quoridor(size,4);
-//    o.move(0,2,0);
-//    std::cout<<o.to_string()<<std::endl;
-//    o.test(0,0);
-//    std::cout<<o.to_string()<<std::endl;
-//    std::vector<std::tuple<int,int>> moves = o.checkMoves(0);
-//    for(auto m : moves){
-//        std::cout<<"possible move at "<<std::get<0>(m)<<" , "<<std::get<1>(m)<<std::endl;
-//    }
-    ConsoleQuoridor test = ConsoleQuoridor(5,4);
-    //while(true)
-    test.test();
-//    std::vector<int> test = {2,3};
-//    std::vector<int> test2 = {4,5};
-//    test.insert(test.end(), test2.begin(), test2.end());
-//    for (auto m : test)
-//        cout<<m<<" ";
-
+    menu();
     return 0;
 }

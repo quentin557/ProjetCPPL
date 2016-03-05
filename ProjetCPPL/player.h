@@ -11,6 +11,7 @@ public:
     inline std::string getPlayerNb() const{return playerNb_;}
     inline int getNumberOfWalls() const{return numberOfWalls_;}
     void move(Square* square);
+    void hasPlacedWall();
 
 
 protected:
