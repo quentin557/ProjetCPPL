@@ -120,7 +120,7 @@ bool Quoridor::canStillWin(int playerNb)
     bool res = false;
     Player *p = players.at(playerNb);
     initBacktrack();
-    backtrack(p->getPos()->getX(),p->getPos()->getY(),getDestinations(playerNb));
+    backtrack(p->getPos()->getX(),p->getPos()->getY());
     for(auto m : getDestinations(playerNb)){
         if(board_.getSquareAt(std::get<0>(m),std::get<1>(m))->getVisited()==true){
             res = true;
@@ -174,17 +174,17 @@ std::vector<std::tuple<int,int>> Quoridor::checkMoves(int x, int y, bool backtra
                     }else{
                     //Diagonals
                         if(std::get<0>(dir)==0){
-                            newX+=1;
+                            newX+=2;
                             std::tuple<int,int> possibleMove= {newX,newY};
                             if(board_.isInside(newX,newY)){moves.push_back(possibleMove);}
-                            newX-=2;
+                            newX-=4;
                             possibleMove= {newX,newY};
                             if(board_.isInside(newX,newY)){moves.push_back(possibleMove);}
                         }else if(std::get<1>(dir)==0){
-                            newY+=1;
+                            newY+=2;
                             std::tuple<int,int> possibleMove= {newX,newY};
                             if(board_.isInside(newX,newY)){moves.push_back(possibleMove);}
-                            newY-=2;
+                            newY-=4;
                             possibleMove= {newX,newY};
                             if(board_.isInside(newX,newY)){moves.push_back(possibleMove);}
                         }
@@ -196,13 +196,13 @@ std::vector<std::tuple<int,int>> Quoridor::checkMoves(int x, int y, bool backtra
     return moves;
 }
 
-void Quoridor::backtrack(int x, int y, std::vector<std::tuple<int, int> > destinations)
+void Quoridor::backtrack(int x, int y)
 {
     board_.getSquareAt(x,y)->setVisited(true);
     std::vector<std::tuple<int, int>> moves = checkMoves(x,y,true);
     for (auto move : moves){
         if(board_.getSquareAt(std::get<0>(move),std::get<1>(move))->getVisited()==false){
-            backtrack(std::get<0>(move),std::get<1>(move),destinations);
+            backtrack(std::get<0>(move),std::get<1>(move));
         }
     }
 }
