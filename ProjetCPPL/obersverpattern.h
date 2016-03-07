@@ -1,25 +1,49 @@
+/*!
+ * \file observerpattern.hpp
+ *
+ * \brief the observer/subject design pattern.
+ *
+ * \author 39766 & 42586
+ */
+
 #ifndef OBERSVERPATTERN_H
 #define OBERSVERPATTERN_H
 #include <vector>
 class Observer;
 class Subject {
-    // 1. "independent" functionality
-    std::vector < Observer * > views; // 3. Coupled only to "interface"
+    std::vector < Observer * > views;
   public:
+    /*!
+     * \brief attaches an Observer to the subject.
+     *
+     * \param obs the Observer attached.
+     *
+     */
     void attach(Observer *obs) {
         views.push_back(obs);
     }
+    /*!
+     * \brief notifies all the attached observers to update.
+     */
     void notify();
 };
 
 class Observer {
-    // 2. "dependent" functionality
   public:
+    /*!
+     * \brief creates a new Observer wich must observe a subject.
+     *
+     * \param mod the subject being observed.
+     *
+     */
     Observer(Subject *mod) {
-        // 4. Observers register themselves with the Subject
         model = mod;
         model->attach(this);
     }
+    /*!
+     * \brief virtual function which each observer should reimplement to
+     * suit its needs when a change happens in subject.
+     */
     virtual void update() = 0;
   protected:
     Subject *model;
