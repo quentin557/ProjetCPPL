@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include "keyboard.hpp"
+#include <limits>
 
 using namespace std;
 #include "board.h"

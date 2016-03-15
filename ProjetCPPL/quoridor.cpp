@@ -143,7 +143,7 @@ bool Quoridor::hasWon(int playerNb)
 std::vector<std::tuple<int,int>> Quoridor::checkMoves(int x, int y, bool backtrack)
 {
     Square* pos = board_.getSquareAt(x,y);
-    std::vector<std::tuple<int,int>> directions = {{0,1},{1,0},{0,-1},{-1,0}};
+    std::vector<std::tuple<int,int>> directions = {std::make_tuple(0,1),std::make_tuple(1,0),std::make_tuple(0,-1),std::make_tuple(-1,0)};
     std::vector<std::tuple<int,int>> moves;
     for(std::tuple<int,int> dir : directions){
         int newX = pos->getX()+std::get<0>(dir);
@@ -155,7 +155,7 @@ std::vector<std::tuple<int,int>> Quoridor::checkMoves(int x, int y, bool backtra
                 newY+=std::get<1>(dir);
                 PlayableSquare* destination = dynamic_cast<PlayableSquare*>(board_.getSquareAt(newX,newY));
                 if(destination->getPlayer()==nullptr || backtrack == true){
-                    std::tuple<int,int> possibleMove= {newX,newY};
+                    std::tuple<int,int> possibleMove= std::make_tuple(newX,newY);
                     moves.push_back(possibleMove);
                 }else if(not backtrack){ //only if checking player move, not while backtracking
                     //pawn on square
@@ -169,23 +169,23 @@ std::vector<std::tuple<int,int>> Quoridor::checkMoves(int x, int y, bool backtra
                     jumpY+=std::get<1>(dir);
                     destination = dynamic_cast<PlayableSquare*>(board_.getSquareAt(jumpX,jumpY));
                     if(test!=0 && !test->getBuild() && destination->getPlayer()==nullptr){
-                        std::tuple<int,int> possibleMove= {jumpX,jumpY};
+                        std::tuple<int,int> possibleMove= std::make_tuple(jumpX,jumpY);
                         moves.push_back(possibleMove);
                     }else{
                     //Diagonals
                         if(std::get<0>(dir)==0){
                             newX+=2;
-                            std::tuple<int,int> possibleMove= {newX,newY};
+                            std::tuple<int,int> possibleMove= std::make_tuple(newX,newY);
                             if(board_.isInside(newX,newY)){moves.push_back(possibleMove);}
                             newX-=4;
-                            possibleMove= {newX,newY};
+                            possibleMove= std::make_tuple(newX,newY);
                             if(board_.isInside(newX,newY)){moves.push_back(possibleMove);}
                         }else if(std::get<1>(dir)==0){
                             newY+=2;
-                            std::tuple<int,int> possibleMove= {newX,newY};
+                            std::tuple<int,int> possibleMove= std::make_tuple(newX,newY);
                             if(board_.isInside(newX,newY)){moves.push_back(possibleMove);}
                             newY-=4;
-                            possibleMove= {newX,newY};
+                            possibleMove= std::make_tuple(newX,newY);
                             if(board_.isInside(newX,newY)){moves.push_back(possibleMove);}
                         }
                     }
@@ -221,16 +221,16 @@ std::vector<std::tuple<int, int> > Quoridor::getDestinations(int playerNb)
     int size = board_.getSize();
     if(pos->getX()==0){ //Player North
         for(int i = 0; i<size;i++)
-            if(i%2==0) dest.push_back({size-1,i});
+            if(i%2==0) dest.push_back(std::make_tuple(size-1,i));
     }else if(pos->getY()==0){ //Player West
         for(int i = 0; i<size;i++)
-            if(i%2==0) dest.push_back({i,size-1});
+            if(i%2==0) dest.push_back(std::make_tuple(i,size-1));
     }else if(pos->getX()==size-1){ //Player South
         for(int i = 0; i<size;i++)
-            if(i%2==0) dest.push_back({0,i});
+            if(i%2==0) dest.push_back(std::make_tuple(0,i));
     }else if(pos->getY()==size-1){ //Player East
         for(int i = 0; i<size;i++)
-            if(i%2==0) dest.push_back({i,0});
+            if(i%2==0) dest.push_back(std::make_tuple(i,0));
     }
     return dest;
 }

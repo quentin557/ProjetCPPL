@@ -608,7 +608,9 @@ consolequoridor.o: ../ProjetCPPL/consolequoridor.cpp ../ProjetCPPL/consolequorid
 		../ProjetCPPL/player.h \
 		../ProjetCPPL/square.h \
 		../ProjetCPPL/wall.h \
-		../ProjetCPPL/obersverpattern.h
+		../ProjetCPPL/obersverpattern.h \
+		../ProjetCPPL/keyboard.hpp \
+		../ProjetCPPL/stringConvert.hpp
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o consolequoridor.o ../ProjetCPPL/consolequoridor.cpp
 
 quoridor.o: ../ProjetCPPL/quoridor.cpp ../ProjetCPPL/quoridor.h \

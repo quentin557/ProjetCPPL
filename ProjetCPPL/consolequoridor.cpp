@@ -1,5 +1,6 @@
 #include "consolequoridor.h"
 #include "keyboard.hpp"
+#include <limits>
 
 ConsoleQuoridor::ConsoleQuoridor(Quoridor* game) : Observer(game) {
     update();
